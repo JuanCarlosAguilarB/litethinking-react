@@ -32,10 +32,6 @@ function Login() {
     const { errors, isSubmitting } = formState;
 
     function onSubmit({ email, password }) {
-    console.log('')
-    console.log('essss', authError, authUser)
-    console.log('')
-
         return dispatch(authActions.login({ email, password }));
     }
 

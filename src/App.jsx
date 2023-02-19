@@ -4,6 +4,9 @@ import { history } from '_helpers';
 import { Nav, PrivateRoute } from '_components';
 import { Home } from 'home';
 import { Login } from 'login';
+import { SeeDetails } from 'companyPages';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export { App };
 
@@ -28,6 +31,7 @@ function App() {
                     />
                     <Route path="/login" element={<Login />} />
                     <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="/:nit" element={<SeeDetails to="/details" />} />
                 </Routes>
             </div>
         </div>

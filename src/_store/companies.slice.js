@@ -27,7 +27,8 @@ function createExtraActions() {
     const baseUrl = `${process.env.REACT_APP_API_URL}/api/v0/companies/companies`;
 
     return {
-        getAllCompanies: getAllCompanies()
+        getAllCompanies: getAllCompanies(),
+        getDetailsCompany: getDetailsCompany()
     };
 
     function getAllCompanies() {
@@ -36,11 +37,18 @@ function createExtraActions() {
             async () => await fetchWrapper.get(baseUrl)
         );
     }
+
+    function getDetailsCompany() {
+        return createAsyncThunk(
+            `${name}/getDetailsCompany`,
+            async ({ nit }) => await fetchWrapper.get(`${baseUrl}/${nit}/`) 
+        );
+    }
 }
 
 function createExtraReducers() {
     return {
-        ...getAllCompanies()
+        ...getAllCompanies(),
     };
     function getAllCompanies() {
         let { pending, fulfilled, rejected } = extraActions.getAllCompanies;
@@ -59,4 +67,5 @@ function createExtraReducers() {
             }
         };
     }
+
 }

@@ -12,7 +12,7 @@ function Nav() {
 
     // only show nav when logged in
     if (!authUser) return null;
-    
+
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
             <div className="navbar-nav">
