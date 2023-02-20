@@ -42,7 +42,6 @@ function SeeDetails() {
     }, []);
 
     useEffect(() => {
-        console.log('isAddItemssssss', isAddItems)
         fetchWrapper.get(`${process.env.REACT_APP_API_URL}/api/v0/companies/companies/${nit}/inventory`)
         .then(res => res)
         .then(data => {setinventory({...data});})
@@ -53,15 +52,10 @@ function SeeDetails() {
         setisAddItems(!isAddItems);
     }
 
-    const deleteButtonClick = (_inventory) => {
-        fetchWrapper.delete(`${process.env.REACT_APP_API_URL}/api/v0/inventories/companies/${_inventory.id}/`)
-        .then(res => res)
-        .catch(err => console.error(err));
-        console.log('aaa')
-        fetchWrapper.get(`${process.env.REACT_APP_API_URL}/api/v0/companies/companies/${nit}/inventory`)
-        .then(res => res)
-        .then(data => {setinventory({...data});})
-        .catch(err => console.error(err));
+    const deleteButtonClick = async (_inventory) => {
+        let response = await fetchWrapper.delete(`${process.env.REACT_APP_API_URL}/api/v0/inventories/companies/${_inventory.id}/`)
+        response = await fetchWrapper.get(`${process.env.REACT_APP_API_URL}/api/v0/companies/companies/${nit}/inventory`)
+        setinventory({...response});
     }
 
 
@@ -114,7 +108,9 @@ function SeeDetails() {
                 </Table>
                 {isAddItems && (<ProductForm nit={nit} setisAddItems={setisAddItems} editedItem={editedItem} setisEditItem={setisEditItem}  isEditItem={isEditItem} setinventory={setinventory}/>)}
                 {isEditItem && (<ProductForm nit={nit} setisAddItems={setisAddItems}  editedItem={editedItem} setisEditItem={setisEditItem} isEditItem={isEditItem} setinventory={setinventory} />)}
-                <Button variant="outline-primary" onClick={handleButtonClick}>Add items</Button>
+                {users.is_staff &&
+                 <Button variant="outline-primary" onClick={handleButtonClick}>Add items</Button>
+                }
     </div>
   );
 }

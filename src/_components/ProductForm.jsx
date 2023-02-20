@@ -27,21 +27,16 @@ function ProductForm({nit, setisAddItems, editedItem, setisEditItem, isEditItem,
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // setIsAddProduct(!isAddProduct)
     if (formData){
       if (isEditItem){
-        fetchWrapper.put(`${baseUrl}${editedItem.id}/`, {...formData, 'company': nit})
-        .then(res => res)
-        .then(data => setIsAddProduct(data))
-        .catch(err => console.error(err));
-      } else {
-      fetchWrapper.post(`${baseUrl}`, {...formData, 'company': nit})
-      .then(res => res)
-      .then(data => setIsAddProduct(data))
-      .catch(err => console.error(err));
-    }
+        const editProduct = await fetchWrapper.put(`${baseUrl}${editedItem.id}/`, {...formData, 'company': nit})
+
+      }
+      const productAdd = await fetchWrapper.post(`${baseUrl}`, {...formData, 'company': nit})
+      setIsAddProduct(productAdd)
       setFormData({
         name: "",
         description: "",
@@ -50,10 +45,8 @@ function ProductForm({nit, setisAddItems, editedItem, setisEditItem, isEditItem,
         price: 0,
         discount: 0,
       });
-      fetchWrapper.get(`${process.env.REACT_APP_API_URL}/api/v0/companies/companies/${nit}/inventory`)
-      .then(res => res)
-      .then(data => {setinventory({...data});})
-      .catch(err => console.error(err));
+      let response = await fetchWrapper.get(`${process.env.REACT_APP_API_URL}/api/v0/companies/companies/${nit}/inventory`)
+      setinventory({...response});
       setisAddItems(false);
       setisEditItem(false);
   }

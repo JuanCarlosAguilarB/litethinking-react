@@ -15,7 +15,6 @@ function Login() {
     const authError = useSelector(x => x.auth.error);
 
     useEffect(() => {
-        console.log('aaa')
         // redirect to home if already logged in
         if (authUser) history.navigate('/');
         }, []);
